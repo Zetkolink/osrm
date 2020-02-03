@@ -2,11 +2,12 @@ package change
 
 import (
 	"context"
-	"v3Osm/domain"
 )
 
 type Store interface {
-	GetChanges(ctx context.Context) (domain.Changes, error)
-	AddChange(ctx context.Context, changeFile *domain.Change) error
-	DeleteChange(ctx context.Context, id int) error
+	Get(ctx context.Context, str interface{}) (string, error)
+	GetAll(ctx context.Context, str interface{}) ([]string, error)
+	Insert(ctx context.Context, str interface{}) (int, error)
+	Update(ctx context.Context, str interface{}) (int, error)
+	Delete(ctx context.Context, str interface{}) (int, error)
 }

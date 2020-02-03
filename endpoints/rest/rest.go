@@ -38,7 +38,8 @@ func methodNotAllowedHandler(wr http.ResponseWriter, req *http.Request) {
 }
 
 type changer interface {
+	GetChange(ctx context.Context, change domain.Change) (domain.Change, error)
 	GetChanges(ctx context.Context) (domain.Changes, error)
-	RevertChange(ctx context.Context, changeId int) error
-	ChangeMap(ctx context.Context, change *domain.Change) error
+	RevertChange(ctx context.Context, change domain.Change) error
+	ChangeMap(ctx context.Context, change domain.Change) error
 }

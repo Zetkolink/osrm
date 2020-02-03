@@ -1,6 +1,7 @@
 package main
 
 import (
+	"db/collections"
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
 	"net/http"
@@ -24,7 +25,7 @@ func main() {
 		lg.Fatalf("DB connection failed %s", err.Error())
 	}
 
-	cSt := sqlDb.NewChangeStore(lg, db)
+	cSt := collections.NewStore(cfg.Col, db)
 
 	chr := change.NewChanger(lg, cSt)
 
@@ -35,6 +36,7 @@ func main() {
 	if err := srv.ListenAndServe(); err != nil {
 		lg.Fatalf("http server exited: %s", err)
 	}
+
 }
 
 func setupServer(cfg config, lg logger.Logger, rest http.Handler) *graceful.Server {
@@ -55,6 +57,7 @@ type config struct {
 	LogFormat       string
 	DbConn          string
 	DbDriver        string
+	Col             string
 	GracefulTimeout time.Duration
 	Addr            string
 }
@@ -66,6 +69,7 @@ func loadConfig() config {
 	viper.SetDefault("DB_DRIVER", "postgres")
 	viper.SetDefault("GRACEFUL_TIMEOUT", 20*time.Second)
 	viper.SetDefault("ADDR", ":8080")
+	viper.SetDefault("COLLECTION", "osm.change")
 
 	return config{
 		LogLevel:        viper.GetString("LOG_LEVEL"),
@@ -74,5 +78,6 @@ func loadConfig() config {
 		DbDriver:        viper.GetString("DB_DRIVER"),
 		GracefulTimeout: viper.GetDuration("GRACEFUL_TIMEOUT"),
 		Addr:            viper.GetString("ADDR"),
+		Col:             viper.GetString("COLLECTION"),
 	}
 }
