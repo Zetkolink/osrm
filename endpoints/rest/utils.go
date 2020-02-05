@@ -1,13 +1,11 @@
 package rest
 
 import (
+	"../../pkg/errors"
+	"../../pkg/render"
 	"encoding/json"
 	"net/http"
-	"v3Osm/pkg/errors"
-	"v3Osm/pkg/render"
 )
-
-const contentTypeJSON = "application/json; charset=utf-8"
 
 func respond(wr http.ResponseWriter, status int, v interface{}) {
 	if err := render.JSON(wr, status, v); err != nil {

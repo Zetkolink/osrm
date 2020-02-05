@@ -38,7 +38,7 @@ type logrusLogger struct {
 }
 
 func (ll *logrusLogger) WithFields(fields map[string]interface{}) Logger {
-	annotatedEntry := ll.Entry.WithFields(logrus.Fields(fields))
+	annotatedEntry := ll.Entry.WithFields(fields)
 	return &logrusLogger{
 		Entry: annotatedEntry,
 	}

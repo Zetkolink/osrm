@@ -1,9 +1,9 @@
 package middlewares
 
 import (
+	"../../pkg/logger"
 	"net/http"
 	"time"
-	"v3Osm/pkg/logger"
 )
 
 // WithRequestLogging adds logging to the given handler. Every request handled by

@@ -1,14 +1,14 @@
 package rest
 
 import (
+	"../../domain"
+	"../../pkg/logger"
 	"github.com/gorilla/mux"
 	"io"
 	"net/http"
 	"os"
 	"strconv"
 	"time"
-	"v3Osm/domain"
-	"v3Osm/pkg/logger"
 )
 
 func addChangesAPI(router *mux.Router, chn changer, lg logger.Logger) {

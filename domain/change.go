@@ -1,9 +1,9 @@
 package domain
 
 import (
+	"../pkg/errors"
 	"strings"
 	"time"
-	"v3Osm/pkg/errors"
 )
 
 // Change osm change.

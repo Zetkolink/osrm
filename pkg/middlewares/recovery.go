@@ -1,9 +1,9 @@
 package middlewares
 
 import (
+	"../../pkg/logger"
 	"encoding/json"
 	"net/http"
-	"v3Osm/pkg/logger"
 )
 
 // WithRecovery recovers from any panics and logs them appropriately.
@@ -16,7 +16,7 @@ func WithRecovery(logger logger.Logger, next http.Handler) http.Handler {
 			logger.Errorf("recovered from panic: %+v", ri.val)
 
 			wr.WriteHeader(http.StatusInternalServerError)
-			json.NewEncoder(wr).Encode(map[string]interface{}{
+			_ = json.NewEncoder(wr).Encode(map[string]interface{}{
 				"error": "Something went wrong",
 			})
 		}

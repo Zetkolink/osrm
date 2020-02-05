@@ -1,8 +1,8 @@
 package middlewares
 
 import (
+	"../../pkg/logger"
 	"net/http"
-	"v3Osm/pkg/logger"
 )
 
 func requestInfo(req *http.Request) map[string]interface{} {

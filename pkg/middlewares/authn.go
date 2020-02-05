@@ -1,11 +1,11 @@
 package middlewares
 
 import (
+	"../../pkg/errors"
+	"../../pkg/logger"
+	"../../pkg/render"
 	"context"
 	"net/http"
-	"v3Osm/pkg/errors"
-	"v3Osm/pkg/logger"
-	"v3Osm/pkg/render"
 )
 
 var authUser = ctxKey("user")
@@ -16,14 +16,14 @@ func WithBasicAuth(lg logger.Logger, next http.Handler, verifier UserVerifier) h
 	return http.HandlerFunc(func(wr http.ResponseWriter, req *http.Request) {
 		name, secret, ok := req.BasicAuth()
 		if !ok {
-			render.JSON(wr, http.StatusUnauthorized, errors.Unauthorized("Basic auth header is not present"))
+			_ = render.JSON(wr, http.StatusUnauthorized, errors.Unauthorized("Basic auth header is not present"))
 			return
 		}
 
 		verified := verifier.VerifySecret(req.Context(), name, secret)
 		if !verified {
 			wr.WriteHeader(http.StatusUnauthorized)
-			render.JSON(wr, http.StatusUnauthorized, errors.Unauthorized("Invalid username or secret"))
+			_ = render.JSON(wr, http.StatusUnauthorized, errors.Unauthorized("Invalid username or secret"))
 			return
 		}
 

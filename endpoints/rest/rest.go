@@ -1,14 +1,14 @@
 package rest
 
 import (
+	"../../domain"
+	"../../pkg/errors"
+	"../../pkg/logger"
+	"../../pkg/render"
+	"../../usecases/change"
 	"context"
-	"droplets-master/pkg/render"
 	"github.com/gorilla/mux"
 	"net/http"
-	"v3Osm/domain"
-	"v3Osm/pkg/errors"
-	"v3Osm/pkg/logger"
-	"v3Osm/usecases/change"
 )
 
 type Rest struct {
@@ -30,11 +30,11 @@ func New(logger logger.Logger, chn changer) http.Handler {
 }
 
 func notFoundHandler(wr http.ResponseWriter, req *http.Request) {
-	render.JSON(wr, http.StatusNotFound, errors.ResourceNotFound("path", req.URL.Path))
+	_ = render.JSON(wr, http.StatusNotFound, errors.ResourceNotFound("path", req.URL.Path))
 }
 
 func methodNotAllowedHandler(wr http.ResponseWriter, req *http.Request) {
-	render.JSON(wr, http.StatusMethodNotAllowed, errors.ResourceNotFound("path", req.URL.Path))
+	_ = render.JSON(wr, http.StatusMethodNotAllowed, errors.ResourceNotFound("path", req.URL.Path))
 }
 
 type changer interface {

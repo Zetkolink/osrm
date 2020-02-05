@@ -25,15 +25,15 @@ func (st stack) Format(s fmt.State, verb rune) {
 		switch {
 		case s.Flag('+'):
 			for _, f := range st {
-				fmt.Fprintf(s, "\n%+v", f)
+				_, _ = fmt.Fprintf(s, "\n%+v", f)
 			}
 		case s.Flag('#'):
-			fmt.Fprintf(s, "%#v", []frame(st))
+			_, _ = fmt.Fprintf(s, "%#v", []frame(st))
 		default:
-			fmt.Fprintf(s, "%v", []frame(st))
+			_, _ = fmt.Fprintf(s, "%v", []frame(st))
 		}
 	case 's':
-		fmt.Fprintf(s, "%s", []frame(st))
+		_, _ = fmt.Fprintf(s, "%v", []frame(st))
 	}
 }
 
@@ -60,17 +60,17 @@ func (f frame) Format(s fmt.State, verb rune) {
 	case 's':
 		switch {
 		case s.Flag('+'):
-			fmt.Fprintf(s, "%s\n\t%s", f.fn, f.file)
+			_, _ = fmt.Fprintf(s, "%s\n\t%s", f.fn, f.file)
 		default:
-			io.WriteString(s, path.Base(f.file))
+			_, _ = io.WriteString(s, path.Base(f.file))
 		}
 	case 'd':
-		fmt.Fprintf(s, "%d", f.line)
+		_, _ = fmt.Fprintf(s, "%d", f.line)
 	case 'n':
-		io.WriteString(s, f.fn)
+		_, _ = io.WriteString(s, f.fn)
 	case 'v':
 		f.Format(s, 's')
-		io.WriteString(s, ":")
+		_, _ = io.WriteString(s, ":")
 		f.Format(s, 'd')
 	}
 }
@@ -85,7 +85,7 @@ func callStack(skip int) stack {
 		frame := frameFromPC(pc)
 		frames = append(frames, frame)
 	}
-	return stack(frames)
+	return frames
 }
 
 func frameFromPC(pc uintptr) frame {
@@ -96,8 +96,8 @@ func frameFromPC(pc uintptr) frame {
 		fr.fn = "unknown"
 	} else {
 		fr.fn = fn.Name()
+		fr.file, fr.line = fn.FileLine(pc)
 	}
 
-	fr.file, fr.line = fn.FileLine(pc)
 	return fr
 }

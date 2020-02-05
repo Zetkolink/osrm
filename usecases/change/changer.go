@@ -1,10 +1,10 @@
 package change
 
 import (
+	"../../domain"
+	"../../pkg/logger"
 	"context"
 	"encoding/json"
-	"v3Osm/domain"
-	"v3Osm/pkg/logger"
 )
 
 type Changer struct {

@@ -1,18 +1,18 @@
 package main
 
 import (
+	"./endpoints/rest"
+	"./handlers/sqlDb"
+	"./pkg/graceful"
+	"./pkg/logger"
+	"./pkg/middlewares"
+	"./usecases/change"
 	"db/collections"
 	"github.com/gorilla/mux"
 	"github.com/spf13/viper"
 	"net/http"
 	"os"
 	"time"
-	"v3Osm/endpoints/rest"
-	"v3Osm/handlers/sqlDb"
-	"v3Osm/pkg/graceful"
-	"v3Osm/pkg/logger"
-	"v3Osm/pkg/middlewares"
-	"v3Osm/usecases/change"
 )
 
 func main() {
